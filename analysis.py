@@ -3,56 +3,82 @@ import csv
 from shapely.geometry import shape
 from shapely import Point
 
-shapefile_path = "./2022_11_8_Revised_proposals_England_shp/2022_11_8_Revised_proposals_England.shp"
-boundaries = fiona.open(shapefile_path)
+COORDINATE_ERROR = 'No coordinates found for postcode'
+CONSTITUENCY_ERROR = 'No constituency found for postcode'
 
-constituency_dict = {}
+shapefile_path = "data/2022_11_8_Revised_proposals_England_shp/2022_11_8_Revised_proposals_England.shp"
+old_constituency_id_mapping_path = 'data/ONSPD_MAY_2023_UK/Documents/Westminster Parliamentary Constituency names and codes UK as at 12_14.csv'
+postcode_directory_path = 'data/ONSPD_MAY_2023_UK/Data/ONSPD_MAY_2023_UK.csv'
 
-for constituency in iter(boundaries):
-    constituency_dict[constituency.properties['Constituen']] = shape(constituency['geometry'])
+constituencies = []
+with fiona.open(shapefile_path) as boundaries:
+    constituencies = [
+        (constituency.properties['Constituen'], shape(constituency['geometry']))
+        for constituency in iter(boundaries)
+    ]
 
-constituency_dict_items = constituency_dict.items()
+old_constituency_ids_dict = {}
+with open(old_constituency_id_mapping_path, encoding='utf-8-sig') as old_id_file:
+    old_ids = csv.DictReader(old_id_file)
+    old_constituency_ids_dict = {old_id['PCON14CD']: old_id['PCON14NM'] for old_id in old_ids}
 
-old_ids_dict = {}
+postcode_count = sum(1 for _ in open(postcode_directory_path))
 
-with open('./ONSPD_MAY_2023_UK/Documents/Westminster Parliamentary Constituency names and codes UK as at 12_14.csv', newline='') as old_id_file:
-    old_ids = csv.DictReader(old_id_file, delimiter=',')
-    for old_id in old_ids:
-        old_ids_dict[old_id['\ufeffPCON14CD']] = old_id['PCON14NM']
+with (
+    open('output.csv', mode='w') as output_file,
+    open(postcode_directory_path) as postcodes_file,
+    open('errors.csv', mode='w') as error_file
+):
+    output_fieldnames = [
+        'postcode',
+        'old_constituency_id',
+        'old_constituency_name',
+        'new_constituency_name'
+    ]
+    error_fieldnames = ['postcode', 'message']
 
-with open('output.csv', 'w', newline='') as output_file:
-    fieldnames = ['postcode', 'old_constituency_id', 'old_constituency_name', 'new_constituency_name']
-    writer = csv.DictWriter(output_file, fieldnames=fieldnames)
-    writer.writeheader()
+    output_writer = csv.DictWriter(output_file, fieldnames=output_fieldnames)
+    output_writer.writeheader()
 
-    with open('./ONSPD_MAY_2023_UK/Data/ONSPD_MAY_2023_UK.csv', newline='') as postcodes_file:
-        postcodes = csv.DictReader(postcodes_file, delimiter=',')
-        i = 0
-        for postcode in postcodes:
-            if postcode['ctry'] != 'E92000001':
-                continue
+    error_writer = csv.DictWriter(error_file, fieldnames=error_fieldnames)
+    error_writer.writeheader()
 
-            if postcode['oseast1m'] == '' or postcode['osnrth1m'] == '':
-                continue
+    postcodes = csv.DictReader(postcodes_file)
+    for i, postcode in enumerate(postcodes):
+        if i % 10000 == 0:
+            print(str(i) + " of " + str(postcode_count) + ", " + "{:.1f}%".format(100*i/postcode_count))
 
-            i += 1
+        if postcode['ctry'] != 'E92000001':
+            continue
 
-            point = Point(int(postcode['oseast1m']), int(postcode['osnrth1m']))
+        if postcode['oseast1m'] == '' or postcode['osnrth1m'] == '':
+            print(", ".join([postcode['pcd'], COORDINATE_ERROR]))
+            error_writer.writerow({
+                error_fieldnames[0]: postcode['pcd'],
+                error_fieldnames[1]: COORDINATE_ERROR
+            })
+            continue
 
-            match = ''
+        point = Point(int(postcode['oseast1m']), int(postcode['osnrth1m']))
 
-            for constituency_name, constituency_shape in constituency_dict_items:
-                if point.within(constituency_shape):
-                    match = constituency_name
-                    break
-                
-                continue
+        match = ''
 
-            if i % 10000 == 0:
-                print(i)
-            
-            if match == '':
-                print(postcode['pcd'], 'No constituency found')
-            else:
-                # print(", ".join([postcode['pcd'],  postcode['pcon'], match]))
-                writer.writerow({fieldnames[0]: postcode['pcd'], fieldnames[1]: postcode['pcon'], fieldnames[2]: old_ids_dict[postcode['pcon']], fieldnames[3]: match})
+        for constituency_name, constituency_shape in constituencies:
+            if point.within(constituency_shape):
+                match = constituency_name
+                break
+        
+        if match == '':
+            print(", ".join([postcode['pcd'], CONSTITUENCY_ERROR]))
+            error_writer.writerow({
+                error_fieldnames[0]: postcode['pcd'],
+                error_fieldnames[1]: CONSTITUENCY_ERROR
+            })
+        else:
+            # print(", ".join([postcode['pcd'],  postcode['pcon'], match]))
+            output_writer.writerow({
+                output_fieldnames[0]: postcode['pcd'],
+                output_fieldnames[1]: postcode['pcon'],
+                output_fieldnames[2]: old_constituency_ids_dict[postcode['pcon']],
+                output_fieldnames[3]: match
+            })
