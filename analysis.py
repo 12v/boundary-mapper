@@ -2,6 +2,7 @@ import fiona
 import csv
 from shapely.geometry import shape
 from shapely import Point
+from shapely.validation import make_valid
 
 COORDINATE_ERROR = 'No coordinates found for postcode'
 CONSTITUENCY_ERROR = 'No constituency found for postcode'
@@ -13,7 +14,7 @@ postcode_directory_path = 'data/ONSPD_MAY_2023_UK/Data/ONSPD_MAY_2023_UK.csv'
 constituencies = []
 with fiona.open(shapefile_path) as boundaries:
     constituencies = [
-        (constituency.properties['Constituen'], shape(constituency['geometry']))
+        (constituency.properties['Constituen'], make_valid(shape(constituency['geometry'])))
         for constituency in iter(boundaries)
     ]
 
