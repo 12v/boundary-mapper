@@ -3,11 +3,12 @@ import csv
 from shapely.geometry import shape
 from shapely import Point
 from shapely.validation import make_valid
+from rtree import index
 
 COORDINATE_ERROR = 'No coordinates found for postcode'
 CONSTITUENCY_ERROR = 'No constituency found for postcode'
 
-shapefile_path = "data/2022_11_8_Revised_proposals_England_shp/2022_11_8_Revised_proposals_England.shp"
+shapefile_path = 'data/2022_11_8_Revised_proposals_England_shp/2022_11_8_Revised_proposals_England.shp'
 old_constituency_id_mapping_path = 'data/ONSPD_MAY_2023_UK/Documents/Westminster Parliamentary Constituency names and codes UK as at 12_14.csv'
 postcode_directory_path = 'data/ONSPD_MAY_2023_UK/Data/ONSPD_MAY_2023_UK.csv'
 
@@ -17,6 +18,10 @@ with fiona.open(shapefile_path) as boundaries:
         (constituency.properties['Constituen'], make_valid(shape(constituency['geometry'])))
         for constituency in iter(boundaries)
     ]
+
+r_tree = index.Index()
+for (pos, (_, constituencyShape)) in enumerate(constituencies):
+    r_tree.insert(pos, constituencyShape.bounds)
 
 old_constituency_ids_dict = {}
 with open(old_constituency_id_mapping_path, encoding='utf-8-sig') as old_id_file:
@@ -47,7 +52,7 @@ with (
     postcodes = csv.DictReader(postcodes_file)
     for i, postcode in enumerate(postcodes):
         if i % 10000 == 0:
-            print(str(i) + " of " + str(postcode_count) + ", " + "{:.1f}%".format(100*i/postcode_count))
+            print(str(i) + ' of ' + str(postcode_count) + ', ' + '{:.1f}%'.format(100*i/postcode_count))
 
         if postcode['ctry'] != 'E92000001':
             continue
@@ -56,7 +61,7 @@ with (
             continue
 
         if postcode['oseast1m'] == '' or postcode['osnrth1m'] == '':
-            print(", ".join([postcode['pcd'], COORDINATE_ERROR]))
+            print(', '.join([postcode['pcd'], COORDINATE_ERROR]))
             error_writer.writerow({
                 error_fieldnames[0]: postcode['pcd'],
                 error_fieldnames[1]: COORDINATE_ERROR
@@ -66,20 +71,21 @@ with (
         point = Point(int(postcode['oseast1m']), int(postcode['osnrth1m']))
 
         match = ''
-
-        for constituency_name, constituency_shape in constituencies:
+        
+        for candidateIndex in r_tree.intersection(point.bounds):
+            constituency_name, constituency_shape = constituencies[candidateIndex]
             if point.within(constituency_shape):
                 match = constituency_name
                 break
         
         if match == '':
-            print(", ".join([postcode['pcd'], CONSTITUENCY_ERROR]))
+            print(', '.join([postcode['pcd'], CONSTITUENCY_ERROR]))
             error_writer.writerow({
                 error_fieldnames[0]: postcode['pcd'],
                 error_fieldnames[1]: CONSTITUENCY_ERROR
             })
         else:
-            # print(", ".join([postcode['pcd'],  postcode['pcon'], match]))
+            # print(', '.join([postcode['pcd'],  postcode['pcon'], match]))
             output_writer.writerow({
                 output_fieldnames[0]: postcode['pcd'],
                 output_fieldnames[1]: postcode['pcon'],
