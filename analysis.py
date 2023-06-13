@@ -51,6 +51,9 @@ with (
         if postcode['ctry'] != 'E92000001':
             continue
 
+        if postcode['doterm'] != '':
+            continue
+
         if postcode['oseast1m'] == '' or postcode['osnrth1m'] == '':
             print(", ".join([postcode['pcd'], COORDINATE_ERROR]))
             error_writer.writerow({
