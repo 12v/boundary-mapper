@@ -15,7 +15,7 @@ postcode_directory_path = 'data/ONSPD_MAY_2023_UK/Data/ONSPD_MAY_2023_UK.csv'
 constituencies = []
 r_tree = index.Index()
 with fiona.open(shapefile_path) as boundaries:
-    for i, constituency in enumerate(iter(boundaries)):
+    for i, constituency in enumerate(boundaries):
         constituency_shape = make_valid(shape(constituency['geometry']))
         constituencies.append((constituency.properties['Constituen'], constituency_shape))
         r_tree.insert(i, constituency_shape.bounds)
@@ -25,7 +25,7 @@ with open(old_constituency_id_mapping_path, encoding='utf-8-sig') as old_id_file
     old_ids = csv.DictReader(old_id_file)
     old_constituency_ids_dict = {old_id['PCON14CD']: old_id['PCON14NM'] for old_id in old_ids}
 
-postcode_count = sum(1 for _ in open(postcode_directory_path))
+postcode_count = sum(1 for _ in open(postcode_directory_path)) - 1
 
 with (
     open(postcode_directory_path) as postcodes_file,
