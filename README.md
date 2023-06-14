@@ -10,9 +10,9 @@ The mapping only includes English postcodes.
 
 The mapping only includes active postcodes (i.e. postcodes that haven't been terminated).
 
-The mapping excludes postcodes that don't have corresponding grid references in the ONS data (an entry is added to `errors.csv` for these postcodes).
+The mapping excludes postcodes that don't have corresponding grid references in the ONS data (an entry is added to `output/errors.csv` for these postcodes).
 
-The mapping excludes postcodes that don't fall within an electoral boundary (an entry is added to `errors.csv` for these postcodes).
+The mapping excludes postcodes that don't fall within an electoral boundary (an entry is added to `output/errors.csv` for these postcodes).
 
 ## How can I use the mapping?
 
