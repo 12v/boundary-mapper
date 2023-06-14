@@ -4,6 +4,7 @@ from shapely.geometry import shape
 from shapely import Point
 from shapely.validation import make_valid
 from rtree import index
+import os
 
 COORDINATE_ERROR = 'No coordinates found for postcode'
 CONSTITUENCY_ERROR = 'No constituency found for postcode'
@@ -27,10 +28,13 @@ with open(old_constituency_id_mapping_path, encoding='utf-8-sig') as old_id_file
 
 postcode_count = sum(1 for _ in open(postcode_directory_path)) - 1
 
+if not os.path.exists('output'):
+    os.makedirs('output')
+
 with (
     open(postcode_directory_path) as postcodes_file,
-    open('output.csv', mode='w') as output_file,
-    open('errors.csv', mode='w') as error_file
+    open('output/mapping.csv', mode='w') as output_file,
+    open('output/errors.csv', mode='w') as error_file
 ):
     output_fieldnames = [
         'postcode',
