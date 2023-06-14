@@ -16,7 +16,9 @@ The mapping excludes postcodes that don't fall within an electoral boundary (an 
 
 ## How can I use the mapping?
 
-The generated mapping can be found [here](https://github.com/hjmoss/boundary-mapper/raw/main/output/mapping.csv).
+The generated mapping file, `output/mapping.csv`, can be found [here](https://github.com/hjmoss/boundary-mapper/raw/main/output/mapping.csv).
+
+**Caveat**: `output/mapping.csv` contains ~1.5 million rows, Microsoft Excel can't display this many rows and will truncate the dataset.
 
 Check the errors [here](https://github.com/hjmoss/boundary-mapper/raw/main/output/errors.csv).
 
