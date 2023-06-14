@@ -13,15 +13,12 @@ old_constituency_id_mapping_path = 'data/ONSPD_MAY_2023_UK/Documents/Westminster
 postcode_directory_path = 'data/ONSPD_MAY_2023_UK/Data/ONSPD_MAY_2023_UK.csv'
 
 constituencies = []
-with fiona.open(shapefile_path) as boundaries:
-    constituencies = [
-        (constituency.properties['Constituen'], make_valid(shape(constituency['geometry'])))
-        for constituency in iter(boundaries)
-    ]
-
 r_tree = index.Index()
-for (pos, (_, constituencyShape)) in enumerate(constituencies):
-    r_tree.insert(pos, constituencyShape.bounds)
+with fiona.open(shapefile_path) as boundaries:
+    for i, constituency in enumerate(iter(boundaries)):
+        constituency_shape = make_valid(shape(constituency['geometry']))
+        constituencies.append((constituency.properties['Constituen'], constituency_shape))
+        r_tree.insert(i, constituency_shape.bounds)
 
 old_constituency_ids_dict = {}
 with open(old_constituency_id_mapping_path, encoding='utf-8-sig') as old_id_file:
@@ -31,8 +28,8 @@ with open(old_constituency_id_mapping_path, encoding='utf-8-sig') as old_id_file
 postcode_count = sum(1 for _ in open(postcode_directory_path))
 
 with (
-    open('output.csv', mode='w') as output_file,
     open(postcode_directory_path) as postcodes_file,
+    open('output.csv', mode='w') as output_file,
     open('errors.csv', mode='w') as error_file
 ):
     output_fieldnames = [
@@ -43,13 +40,14 @@ with (
     ]
     error_fieldnames = ['postcode', 'message']
 
+    postcodes = csv.DictReader(postcodes_file)
+
     output_writer = csv.DictWriter(output_file, fieldnames=output_fieldnames)
     output_writer.writeheader()
 
     error_writer = csv.DictWriter(error_file, fieldnames=error_fieldnames)
     error_writer.writeheader()
 
-    postcodes = csv.DictReader(postcodes_file)
     for i, postcode in enumerate(postcodes):
         if i % 10000 == 0:
             print(str(i) + ' of ' + str(postcode_count) + ', ' + '{:.1f}%'.format(100*i/postcode_count))
@@ -85,7 +83,6 @@ with (
                 error_fieldnames[1]: CONSTITUENCY_ERROR
             })
         else:
-            # print(', '.join([postcode['pcd'],  postcode['pcon'], match]))
             output_writer.writerow({
                 output_fieldnames[0]: postcode['pcd'],
                 output_fieldnames[1]: postcode['pcon'],
