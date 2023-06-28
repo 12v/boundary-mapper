@@ -9,7 +9,7 @@ import os
 COORDINATE_ERROR = 'No coordinates found for postcode'
 CONSTITUENCY_ERROR = 'No constituency found for postcode'
 
-shapefile_path = 'data/2022_11_8_Revised_proposals_England_shp/2022_11_8_Revised_proposals_England.shp'
+shapefile_path = 'data/984162_2023_06_27_Final_recommendations_England_shp/2023_06_27_Final_recommendations_England.shp'
 old_constituency_id_mapping_path = 'data/ONSPD_MAY_2023_UK/Documents/Westminster Parliamentary Constituency names and codes UK as at 12_14.csv'
 postcode_directory_path = 'data/ONSPD_MAY_2023_UK/Data/ONSPD_MAY_2023_UK.csv'
 
