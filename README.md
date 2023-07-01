@@ -1,8 +1,18 @@
-# boundary-mapper
+# Postcode to updated Westminster constituency converter
+
+## How can I use the converter?
+
+A simple UI is available [here](https://12v.github.io/boundary-mapper/).
+
+The generated conversion file, `output/mapping.csv`, can be found [here](https://github.com/12v/boundary-mapper/raw/main/output/mapping.csv).
+
+**Caveat**: `output/mapping.csv` contains ~1.5 million rows, Microsoft Excel can't display this many rows and will truncate the dataset.
+
+Check the errors [here](https://github.com/12v/boundary-mapper/raw/main/output/errors.csv).
 
 ## What is this?
 
-This project creates a mapping between postcodes and the proposed Westminster constituency electoral boundaries from the [Boundary Commission's 2023 review](https://boundarycommissionforengland.independent.gov.uk/2023-review/).
+This project creates a mapping to convert between postcodes and the proposed Westminster constituency electoral boundaries from the [Boundary Commission's 2023 review](https://boundarycommissionforengland.independent.gov.uk/2023-review/).
 
 ## What assumptions have been made?
 
@@ -13,14 +23,6 @@ The mapping only includes active postcodes (i.e. postcodes that haven't been ter
 The mapping excludes postcodes that don't have corresponding grid references in the ONS data (an entry is added to `output/errors.csv` for these postcodes).
 
 The mapping excludes postcodes that don't fall within an electoral boundary (an entry is added to `output/errors.csv` for these postcodes).
-
-## How can I use the mapping?
-
-The generated mapping file, `output/mapping.csv`, can be found [here](https://github.com/hjmoss/boundary-mapper/raw/main/output/mapping.csv).
-
-**Caveat**: `output/mapping.csv` contains ~1.5 million rows, Microsoft Excel can't display this many rows and will truncate the dataset.
-
-Check the errors [here](https://github.com/hjmoss/boundary-mapper/raw/main/output/errors.csv).
 
 ## How can I run this myself?
 
