@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Postcode to New Westminster Constituency Converter</title>
+</head>
+
+<body>
+  <h1>Postcode to New Westminster Constituency Converter</h1>
+  <form onsubmit="createCSV(event)">
+    <label for="csv-input">Enter postcodes, one per line:</label>
+    <textarea id="csv-input" name="csv-input"></textarea>
+    <br>
+    <button id="csvSubmit" type="submit" disabled="true">Create CSV</button>
+  </form>
+
+  <script>
+    function createCSV(event) {
+      event.preventDefault();
+
+      const inputData = document.getElementById('csv-input').value.split('\n');
+
+      const regex = /^[a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}$/i;
+
+      const outputData = inputData.map(row => {
+        return row.match(regex) ?
+          window.mapping[stripSpaces(row.toLowerCase())]
+          : '';
+      });
+
+      console.log(inputData);
+      console.log(outputData);
+
+      const csvBlob = new Blob([outputData.join('\r')], { type: 'text/csv' });
+      const csvUrl = URL.createObjectURL(csvBlob);
+
+      const downloadLink = document.createElement('a');
+      downloadLink.href = csvUrl;
+      downloadLink.download = 'downloads.csv';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    }
+
+    function parseCSV(csvData) {
+      const lines = csvData.split('\n');
+      const postcodeToConstituency = {};
+      for (let i = 1; i < lines.length; i++) {
+        const [postcode, _, ___, constituency] = lines[i].split(',');
+        if (!postcode || !constituency) {
+          continue;
+        }
+        postcodeToConstituency[stripSpaces(postcode.toLowerCase())] = constituency.trim();
+      }
+      return postcodeToConstituency;
+    }
+
+    function createMapping() {
+      fetch('https://raw.githubusercontent.com/12v/boundary-mapper/main/output/mapping.csv')
+        .then(response => response.text())
+        .then(csvData => {
+          const postcodeToConstituency = parseCSV(csvData);
+          window.mapping = postcodeToConstituency;
+          document.querySelector('#csvSubmit').disabled = false;
+        });
+    }
+
+    function stripSpaces(inputString) {
+      return inputString.replace(/\s/g, '');
+    }
+
+    createMapping();
+  </script>
+</body>
+
+</html>
