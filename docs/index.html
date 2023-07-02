@@ -17,6 +17,7 @@
   <script>
     function createCSV(event) {
       event.preventDefault();
+      document.querySelector('#csvSubmit').disabled = true;
 
       const inputData = document.getElementById('csv-input').value.split('\n');
 
@@ -40,6 +41,7 @@
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
+      document.querySelector('#csvSubmit').disabled = false;
     }
 
     function parseCSV(csvData) {
