@@ -24,9 +24,12 @@
       const regex = /^[a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}$/i;
 
       const outputData = inputData.map(row => {
-        return row.match(regex) ?
-          `${row}, ${window.mapping[stripSpaces(row.toLowerCase())]}`
-          : ',';
+        if (!row.match(regex)) {
+          return `${row},`;
+        }
+
+        const constituency = window.mapping[stripSpaces(row.toLowerCase())];
+        return `${row},${constituency || ''}`;
       });
 
       console.log(inputData);
