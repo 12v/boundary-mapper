@@ -51,7 +51,7 @@
       const lines = csvData.split('\n');
       const postcodeToConstituency = {};
       for (let i = 1; i < lines.length; i++) {
-        const [postcode, _, ___, constituency] = lines[i].split(',');
+        const [postcode, constituency] = lines[i].split(',');
         if (!postcode || !constituency) {
           continue;
         }
@@ -61,7 +61,7 @@
     }
 
     function createMapping() {
-      fetch('https://raw.githubusercontent.com/12v/boundary-mapper/main/output/mapping.csv')
+      fetch('https://raw.githubusercontent.com/12v/boundary-mapper/main/output/condensed_mapping.csv')
         .then(response => response.text())
         .then(csvData => {
           const postcodeToConstituency = parseCSV(csvData);

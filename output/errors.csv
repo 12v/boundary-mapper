@@ -1,4 +1,10 @@
 postcode,message
+AB431AG,No coordinates found for postcode
+AB431AH,No coordinates found for postcode
+AB431AJ,No coordinates found for postcode
+AB431AL,No coordinates found for postcode
+AB559AA,No coordinates found for postcode
+AB559AE,No coordinates found for postcode
 BD981GA,No coordinates found for postcode
 BD981GB,No coordinates found for postcode
 BD981GD,No coordinates found for postcode
@@ -13,6 +19,19 @@ BD985YA,No coordinates found for postcode
 BD985YY,No coordinates found for postcode
 BN919AA,No coordinates found for postcode
 CO151QX,No constituency found for postcode
+DG100AF,No coordinates found for postcode
+DG6 9AB,No coordinates found for postcode
+EH429AG,No coordinates found for postcode
+EH429AJ,No coordinates found for postcode
+EH429AL,No coordinates found for postcode
+EH429AN,No coordinates found for postcode
+EH429AQ,No coordinates found for postcode
+EH429AT,No coordinates found for postcode
+EH429AU,No coordinates found for postcode
+EH429BB,No coordinates found for postcode
+EH429BF,No coordinates found for postcode
+EH429BG,No coordinates found for postcode
+EH777AA,No coordinates found for postcode
 EN771AA,No coordinates found for postcode
 EN771AB,No coordinates found for postcode
 EN771AD,No coordinates found for postcode
@@ -74,7 +93,15 @@ EN771WB,No coordinates found for postcode
 EN771XY,No coordinates found for postcode
 EN771YL,No coordinates found for postcode
 EN771ZA,No coordinates found for postcode
+G45 5AG,No coordinates found for postcode
 GIR 0AA,No coordinates found for postcode
+IV409AD,No coordinates found for postcode
+IV409AE,No coordinates found for postcode
+IV510AE,No coordinates found for postcode
+KA266AB,No coordinates found for postcode
+KY4 4AA,No coordinates found for postcode
+KY5 5AG,No coordinates found for postcode
+KY5 5AJ,No coordinates found for postcode
 M35 5AN,No coordinates found for postcode
 M35 5AP,No coordinates found for postcode
 M35 5AQ,No coordinates found for postcode
@@ -348,10 +375,12 @@ NW1W6FP,No coordinates found for postcode
 NW1W6FQ,No coordinates found for postcode
 NW1W6FR,No coordinates found for postcode
 NW1W6FS,No coordinates found for postcode
+PA429AB,No coordinates found for postcode
 PO241AA,No coordinates found for postcode
 PO332HF,No constituency found for postcode
 S94 1AA,No coordinates found for postcode
 S94 1AB,No coordinates found for postcode
+SA349AB,No coordinates found for postcode
 SE1P6AD,No coordinates found for postcode
 SE1P6AE,No coordinates found for postcode
 SE1P6AF,No coordinates found for postcode
@@ -705,6 +734,7 @@ SR434HU,No coordinates found for postcode
 SR434HW,No coordinates found for postcode
 SR434HX,No coordinates found for postcode
 SR434HY,No coordinates found for postcode
+SY189AA,No coordinates found for postcode
 TW159FQ,No coordinates found for postcode
 TW159FR,No coordinates found for postcode
 TW159FT,No coordinates found for postcode
