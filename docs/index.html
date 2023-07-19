@@ -61,7 +61,7 @@
     }
 
     function createMapping() {
-      fetch('https://raw.githubusercontent.com/12v/boundary-mapper/main/output/condensed_mapping.csv')
+      fetch('https://raw.githubusercontent.com/12v/boundary-mapper/main/output/condensed_postcode_to_constituency_mapping.csv')
         .then(response => response.text())
         .then(csvData => {
           const postcodeToConstituency = parseCSV(csvData);

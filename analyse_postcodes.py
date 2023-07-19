@@ -16,6 +16,9 @@ wales_shapefile_path = 'data/Wales Final Recs Shapefiles/Final Recommendations_r
 old_constituency_id_mapping_path = 'data/ONSPD_MAY_2023_UK/Documents/Westminster Parliamentary Constituency names and codes UK as at 12_14.csv'
 postcode_directory_path = 'data/ONSPD_MAY_2023_UK/Data/ONSPD_MAY_2023_UK.csv'
 
+output_path = 'output/postcode_to_constituency_mapping.csv'
+condensed_output_path = 'output/condensed_postcode_to_constituency_mapping.csv'
+
 def create_constituency_index_and_list(shapefile_path, constituency_name_key):
     constituencies = []
     r_tree = index.Index()
@@ -61,7 +64,7 @@ if not os.path.exists('output'):
 
 with (
     open(postcode_directory_path) as postcodes_file,
-    open('output/mapping.csv', mode='w') as output_file,
+    open(output_path, mode='w') as output_file,
     open('output/errors.csv', mode='w') as error_file
 ):
     output_fieldnames = [
@@ -122,9 +125,9 @@ with (
                 output_fieldnames[3]: fixed_ward
             })
 
-with open('output/mapping.csv') as input_file:
+with open(output_path) as input_file:
     reader = csv.reader(input_file)
-    with open('output/condensed_mapping.csv', mode='w') as condensed_output_file:
+    with open(condensed_output_path, mode='w') as condensed_output_file:
         writer = csv.writer(condensed_output_file)
         for row in reader:
             writer.writerow([row[0], row[2]])
