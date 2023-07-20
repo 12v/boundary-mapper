@@ -10,15 +10,15 @@ This project also creates mappings from wards to constituencies, and from consti
 
 In addition to using the underlying mapping CSV files directly, a simple UI for conerting postcodes into their corresponing constituencies is available [here](https://12v.github.io/boundary-mapper/).
 
-The generated conversion file mapping postcodes to new Westminster constituencies, `output/postcode_to_constituency_mapping.csv`, can be found [here](https://github.com/12v/boundary-mapper/raw/main/output/postcode_to_constituency_mapping.csv).
+The generated conversion file mapping postcodes to new Westminster constituencies, `output/postcode_to_constituency_mapping.csv`, can be found [here](https://github.com/12v/boundary-mapper/blob/main/output/postcode_to_constituency_mapping.csv).
 
-A mapping of wards to new Westminster constituencies,  `output/ward_to_constituencies_mapping.csv`,  can be found [here](https://github.com/12v/boundary-mapper/raw/main/output/ward_to_constituencies_mapping.csv).
+A mapping of wards to new Westminster constituencies,  `output/ward_to_constituencies_mapping.csv`,  can be found [here](https://github.com/12v/boundary-mapper/blob/main/output/ward_to_constituencies_mapping.csv).
 
-A mapping of new Westminster constituencies to wards,  `output/constituency_to_wards_mapping.csv`,  can be found [here](https://github.com/12v/boundary-mapper/raw/main/output/constituency_to_wards_mapping.csv).
+A mapping of new Westminster constituencies to wards,  `output/constituency_to_wards_mapping.csv`,  can be found [here](https://github.com/12v/boundary-mapper/blob/main/output/constituency_to_wards_mapping.csv).
 
 **Caveat**: `output/postcode_to_constituency_mapping.csv` contains >1.7 million rows, Microsoft Excel can't display this many rows and will truncate the dataset.
 
-Check the errors [here](https://github.com/12v/boundary-mapper/raw/main/output/errors.csv).
+Check the errors [here](https://github.com/12v/boundary-mapper/blob/main/output/errors.csv).
 
 ## What assumptions have been made?
 
