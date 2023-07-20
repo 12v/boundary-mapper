@@ -1,6 +1,6 @@
 import csv
 
-ward_names_and_codes_path = 'data/ONSPD_MAY_2023_UK/Documents/Ward names and codes UK as at 05_23.csv'
+ward_names_and_codes_path = 'data/postcodes/Documents/Ward names and codes UK as at 05_23.csv'
 
 with (
     open('output/postcode_to_constituency_mapping.csv') as output_file,
@@ -50,7 +50,7 @@ with (
 
         for i in range(max_constituency_count):
             header_row.append(f'constituency{i+1}')
-            header_row.append(f'#constituency{i+1}')
+            header_row.append(f'#postcodes{i+1}')
 
         ward_results_writer.writerow(header_row)
 
@@ -72,7 +72,7 @@ with (
 
         for i in range(max_ward_count):
             header_row.append(f'ward{i+1}')
-            header_row.append(f'#ward{i+1}')
+            header_row.append(f'#postcodes{i+1}')
         
         constituency_results_writer.writerow(header_row)
 
