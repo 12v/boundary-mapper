@@ -60,6 +60,10 @@ with (
             for constituency in sorted(constituencies, key=constituencies.get, reverse=True):
                 row.append(constituency)
                 row.append(constituencies[constituency])
+            
+            for i in range(len(header_row) - len(row)):
+                row.append('')
+            
             ward_results_writer.writerow(row)
 
     with(open('output/constituency_to_wards_mapping.csv', mode='w')) as constituency_results_file:
@@ -82,4 +86,8 @@ with (
             for ward in sorted(wards, key=wards.get, reverse=True):
                 row.append(ward)
                 row.append(wards[ward])
+
+            for i in range(len(header_row) - len(row)):
+                row.append('')
+                
             constituency_results_writer.writerow(row)
