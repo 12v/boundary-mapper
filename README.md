@@ -2,13 +2,13 @@
 
 ## What is this?
 
-This project creates a mapping to convert between postcodes and the proposed Westminster constituency electoral boundaries from the 2023 reviews of the [English](https://boundarycommissionforengland.independent.gov.uk/2023-review/), [Scottish](https://www.bcomm-scotland.independent.gov.uk/reviews/2023-review-uk-parliament-constituencies), and [Welsh](https://bcomm-wales.gov.uk/reviews/06-23/2023-parliamentary-review-final-recommendations) boundary commissions.
+This project creates a mapping to convert between postcodes and the proposed Westminster constituency electoral boundaries from the 2023 reviews of the [English](https://boundarycommissionforengland.independent.gov.uk/2023-review/), [Scottish](https://www.bcomm-scotland.independent.gov.uk/reviews/2023-review-uk-parliament-constituencies), [Welsh](https://bcomm-wales.gov.uk/reviews/06-23/2023-parliamentary-review-final-recommendations) and [Northern Irish](https://www.boundarycommission.org.uk/2023-review-parliamentary-constituencies) boundary commissions.
 
 This project also creates mappings from wards to constituencies, and from constituencies to wards.
 
 ## How can I use the converter?
 
-In addition to using the underlying mapping CSV files directly, a simple UI for conerting postcodes into their corresponing constituencies is available [here](https://12v.github.io/boundary-mapper/).
+In addition to using the underlying mapping CSV files directly, a simple UI for converting postcodes into their corresponing constituencies is available [here](https://12v.github.io/boundary-mapper/).
 
 The generated conversion file mapping postcodes to new Westminster constituencies, `output/postcode_to_constituency_mapping.csv`, can be found [here](https://github.com/12v/boundary-mapper/blob/main/output/postcode_to_constituency_mapping.csv).
 
@@ -16,13 +16,13 @@ A mapping of wards to new Westminster constituencies,  `output/ward_to_constitue
 
 A mapping of new Westminster constituencies to wards,  `output/constituency_to_wards_mapping.csv`,  can be found [here](https://github.com/12v/boundary-mapper/blob/main/output/constituency_to_wards_mapping.csv).
 
-**Caveat**: `output/postcode_to_constituency_mapping.csv` contains >1.7 million rows, Microsoft Excel can't display this many rows and will truncate the dataset.
+**Caveat**: `output/postcode_to_constituency_mapping.csv` contains >2 million rows, Microsoft Excel can't display this many rows and will truncate the dataset.
 
 Check the errors [here](https://github.com/12v/boundary-mapper/blob/main/output/errors.csv).
 
 ## What assumptions have been made?
 
-The mapping only includes English, Scottish, and Welsh postcodes, as shapefiles for the Northern Ireland constituencies have not been published.
+The mapping includes English, Scottish, Welsh and Northern Irish postcodes.
 
 The mapping only includes active postcodes (i.e. postcodes that haven't been terminated).
 
