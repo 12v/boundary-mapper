@@ -29,7 +29,7 @@
         }
 
         const constituency = window.mapping[stripSpaces(row.toLowerCase())];
-        return `${row},${constituency || ''}`;
+        return `${row},"${constituency || ''}"`;
       });
 
       console.log(inputData);
