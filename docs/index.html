@@ -29,7 +29,7 @@
         }
 
         const constituency = window.mapping[stripSpaces(row.toLowerCase())];
-        return `${row},"${constituency || ''}"`;
+        return `${row},${constituency || ''}`;
       });
 
       console.log(inputData);
@@ -51,7 +51,16 @@
       const lines = csvData.split('\n');
       const postcodeToConstituency = {};
       for (let i = 1; i < lines.length; i++) {
-        const [postcode, constituency] = lines[i].split(',');
+        const segments = lines[i].split(',');
+        let postcode;
+        if (segments.length) {
+          postcode = segments[0];
+        }
+        const constituencySegs = segments.slice(1);
+        let constituency;
+        if (constituencySegs.length) {
+          constituency = constituencySegs.join(',');
+        }
         if (!postcode || !constituency) {
           continue;
         }
